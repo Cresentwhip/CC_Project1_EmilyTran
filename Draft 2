@@ -1,0 +1,72 @@
+/*
+Adjective: suffocating
+balloon in the center "breathing" 
+slowly it gets bigger, changing color when it inflates
+walls are sharp and chomp inward constantly
+
+*/
+class Balloon {
+  constructor(r, g, b, x, y, rad) {
+    this.r = r
+    this.g = g
+    this.b = b
+    this.x = x
+    this.y = y
+    this.rad = rad
+
+  }
+
+  default () { //reset position
+    ellipse(this.x, this.y, this.rad, this.rad);
+  }
+
+  expand() { //blowing up the balloon
+    this.x += 5
+    this.y += 5
+
+  }
+  shrink() { //deflating the balloon
+    this.x -= 5
+    this.y -= 5
+
+  }
+
+
+}
+
+
+var x,y,r,g,b,rad;
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(100);
+  r = random(0, 255); //color initial variables
+  g = random(0, 255);
+  b = random(0, 255);
+  x = windowWidth/2;
+  y = windowHeight/2;
+  rad = 100;
+  for (var i = 0; i <= windowHeight; i++) { //limit balloon to the window
+    balloon = new Balloon(r, g, b, x, y, rad)
+  }
+}
+
+var ball=[10,20];
+function draw() {
+
+  //had not touched the walls
+for (test of ball){
+  test = new Balloon(r, g, b, x, y, rad).draw;
+}
+  //   if (x <= windowWidth || y <= windowHeight) {
+//     x++;
+//     y++;
+//     for (var i = 0; i < 100; i++) { //while it inflates, it changes color
+//       balloons.push(new Balloon(random(width), random(height)))
+//     }
+//   } 
+//   else {
+//     x = 0
+//     y = 0
+//   }
+//   print(x);
+}
