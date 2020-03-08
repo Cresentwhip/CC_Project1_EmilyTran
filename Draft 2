@@ -35,7 +35,10 @@ class Balloon {
 }
 
 
-var x,y,r,g,b,rad;
+var x,y,r,g,b,rad; //declare everything
+var firstBall; //decalre first balloon
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(100);
@@ -46,17 +49,19 @@ function setup() {
   y = windowHeight/2;
   rad = 100;
   for (var i = 0; i <= windowHeight; i++) { //limit balloon to the window
-    balloon = new Balloon(r, g, b, x, y, rad)
+    firstBall = new Balloon(r, g, b, x, y, rad)
   }
 }
 
 var ball=[10,20];
 function draw() {
 
+  
+  firstBall.default(); //default 
   //had not touched the walls
-for (test of ball){
-  test = new Balloon(r, g, b, x, y, rad).draw;
-}
+
+  
+  
   //   if (x <= windowWidth || y <= windowHeight) {
 //     x++;
 //     y++;
