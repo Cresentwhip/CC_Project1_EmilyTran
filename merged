@@ -1,0 +1,180 @@
+/*
+Adjective: terror
+balloon in the center "breathing" 
+slowly it gets bigger, changing color when it inflates
+walls are sharp and chomp inward constantly
+
+*/
+function strobe() {
+  stroR = random(255); //background creates strobe
+  stroB = random(255);
+  stroG = random(255);
+  w = random(200, 255);
+  background(stroR, stroG, stroB, w);
+  fill(0)
+}
+
+
+class Following {
+  createFollower() {
+    this.x = mouseX;
+    this.y = mouseY;
+    this.diameter = random(10, 30);
+    this.speed = 1;
+  }
+
+  jittery() {
+    this.x += random(-this.speed, this.speed);
+    this.y += random(-this.speed, this.speed);
+  }
+
+  draw() {
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+
+
+class Balloon {
+  constructor(cr, cg, cb, cx, cy, crad) {
+    fill(cr, cg, cb)
+    this.x = cx
+    this.y = cy
+    this.rad = crad
+    this.speed = 1
+  }
+
+  default (ex, ey, er) { //reset position
+    ellipse(ex, ey, er, er);
+  }
+
+
+  expand() { //blowing up the balloon
+    // radius += 5; //for testing "else"
+    radius += random(+10, -9); //fluctuate sizing
+  }
+
+  shrink(sr, sg, sb, srad) { //deflating the balloon
+    radius -= random(+6);
+  }
+
+}
+
+
+
+var x, y, r, g, b, rad; //declare everything
+var mouseRed, mouseGreen, mouseBlue; //cursor info
+var changingBall; //decalre  balloon
+var balls = [];
+var fr; //frame rate
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  fr = 14; //framerate
+  choiceOP=random(1,10);
+
+  canvaX = windowWidth; //to shrink drawing area
+  canvaY = windowHeight;
+
+  rr = random(0, 255);
+  gg = random(0, 255);
+  bb = random(0, 255);
+
+  xx = canvaX / 2;
+  yy = canvaY / 2;
+  radius = 100; //starting radius
+
+  follower = new Following();
+  changingBall = new Balloon(rr, gg, bb, xx, yy, radius)
+
+  for (let p = 0; p < 50; p++) {
+    balls.push(new Balloon(rr, gg, bb, random(canvaX), random(canvaY), random(-2, 2))) //draw randomized dots
+  }
+
+}
+
+
+function draw() {
+
+  //following mouse
+
+  follower.jittery();
+  follower.draw();
+
+  function keyPressed() {
+    if (keyCode === SPACEBAR) {
+      choiceOP = random(1, 10); //reset the choice between terror adn anxiety
+    }
+    else { 
+    }
+  }
+// print(choiceOP) //check variables
+
+  
+  //breathing object
+
+  starterBall = changingBall.default(xx, yy, radius); //default image
+
+  // SECTION 1
+  if (choiceOP % 2) {
+    if (radius <= canvaY && radius <= canvaX) { //had not touched the walls
+      changingBall.expand()
+
+    } else { //hits walls
+      changingBall.shrink();
+      blackingOut1();
+    }
+
+  } else {
+    if (radius <= canvaY && radius <= canvaX) { //had not touched the walls
+      changingBall.expand()
+
+    } else { //hits walls
+      changingBall.shrink();
+      blackingOut2();
+    }
+
+  }
+}
+
+
+function blackingOut1() {
+
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+
+      //clutter, closing the spaces between colors to "breathe"
+    }
+  }
+  changingBall.shrink(rr, gg, bb, radius);
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+    }
+  }
+  // }
+}
+
+function blackingOut2() {
+
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+
+      //clutter, closing the spaces between colors to "breathe"
+    }
+  }
+  changingBall.shrink(rr, gg, bb, radius);
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+      // fill(255);
+      //       changingBall.shrink(rr, gg, bb, radius);
+      //clutter, closing the spaces between colors to "breathe"
+    }
+  }
+}
