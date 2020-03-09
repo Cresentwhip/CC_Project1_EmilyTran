@@ -1,8 +1,10 @@
 /*
-Adjective: nawing terror = awe
+Adjective: Awe (a mix of admiration and nawing terror)
 balloon in the center "breathing" 
-slowly it gets bigger, changing color when it inflates
-walls are sharp and chomp inward constantly
+slowly it gets bigger, changing color/emotion when it inflates
+overwhelmed with emotion, turning darker
+all goes dark in the end with struggles of color trying to "cut" through the darkness
+continuous splotches "Staining" the traces of light
 
 */
 
@@ -78,7 +80,7 @@ function draw() {
 
   // SECTION 1
   if (choiceOP % 2) {
-    if (radius <= 300 && radius <= 300) { //had not touched the walls
+    if (radius <= 375 && radius <= 400) { //had not touched the walls
       changingBall.expand()
 
     } else { //hits walls
@@ -99,7 +101,7 @@ function draw() {
 }
 
 
-function blackingOut1() {
+function blackingOut1() { //terror from previous code
 
   for (let k = 0; k < 3; k++) { //gradient from color to black
     fill(rr--, gg--, bb--) //varying gray dots 
@@ -119,7 +121,7 @@ function blackingOut1() {
   // }
 }
 
-function blackingOut2() {
+function blackingOut2() { //anxiety version of previous code
 
   for (let k = 0; k < 3; k++) { //gradient from color to black
     fill(rr--, gg--, bb--) //varying gray dots 
