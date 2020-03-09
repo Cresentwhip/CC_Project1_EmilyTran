@@ -1,0 +1,214 @@
+/*
+Adjective: nawing terror = awe
+balloon in the center "breathing" 
+slowly it gets bigger, changing color when it inflates
+walls are sharp and chomp inward constantly
+
+*/
+
+
+var x, y, r, g, b, rad; //declare everything
+var mouseRed, mouseGreen, mouseBlue; //cursor info
+var changingBall; //decalre  balloon
+var balls = [];
+var fr; //frame rate
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  fr = 14; //framerate
+  choiceOP=random(1,10);
+
+  canvaX = windowWidth; //to shrink drawing area
+  canvaY = windowHeight;
+
+  rr = random(0, 255);
+  gg = random(0, 255);
+  bb = random(0, 255);
+
+  xx = canvaX / 2;
+  yy = canvaY / 2;
+  radius = 100; //starting radius
+
+  follower = new Following();
+  changingBall = new Balloon(rr, gg, bb, xx, yy, radius)
+
+  for (let p = 0; p < 50; p++) {
+    balls.push(new Balloon(rr, gg, bb, random(canvaX), random(canvaY), random(-2, 2))) //draw randomized dots
+  }
+
+}
+
+
+function draw() {
+
+  //following mouse
+
+  follower.jittery();
+  follower.draw();
+  
+  
+  //spinning stars
+  push();
+  strobe();
+  translate(width/2, height/2);
+  rotate(frameCount / 200.0);
+  star(0, 0, 15, 260, 3);
+  pop();
+  
+  push();
+  strobe();
+  translate(width/2, height/2);
+  rotate(frameCount / 370.0);
+  star(0, 0, 20, 300, 3);
+  pop();
+  
+  
+  function keyPressed() {
+    if (keyCode === SPACEBAR) {
+      choiceOP = random(1, 10); //reset the choice between terror adn anxiety
+    }
+    else { 
+    }
+  }
+// print(choiceOP) //check variables
+
+  
+  //breathing object
+  starterBall = changingBall.default(xx, yy, radius); //default image
+
+  // SECTION 1
+  if (choiceOP % 2) {
+    if (radius <= 300 && radius <= 300) { //had not touched the walls
+      changingBall.expand()
+
+    } else { //hits walls
+      changingBall.shrink();
+      blackingOut1();
+    }
+
+  } else {
+    if (radius <= canvaY && radius <= canvaX) { //had not touched the walls
+      changingBall.expand()
+
+    } else { //hits walls
+      changingBall.shrink();
+      blackingOut2();
+    }
+
+  }
+}
+
+
+function blackingOut1() {
+
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+
+      //clutter, closing the spaces between colors to "breathe"
+    }
+  }
+  changingBall.shrink(rr, gg, bb, radius);
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+    }
+  }
+  // }
+}
+
+function blackingOut2() {
+
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+
+      //clutter, closing the spaces between colors to "breathe"
+    }
+  }
+  changingBall.shrink(rr, gg, bb, radius);
+  for (let k = 0; k < 3; k++) { //gradient from color to black
+    fill(rr--, gg--, bb--) //varying gray dots 
+    for (let n of balls) {
+      n.default(random(canvaX), random(canvaY), random(-30, 30))
+      // fill(255);
+      //       changingBall.shrink(rr, gg, bb, radius);
+      //clutter, closing the spaces between colors to "breathe"
+    }
+  }
+}
+
+
+function strobe() {
+  stroR = random(255); //background creates strobe
+  stroB = random(255);
+  stroG = random(255);
+  w = random(200, 255);
+  fill(stroR, stroG, stroB, w);
+
+}
+
+
+function star(x, y, radius1, radius2, npoints) { //create star
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius2;
+    let sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + halfAngle) * radius1;
+    sy = y + sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
+
+class Following {
+  createFollower() {
+    this.x = mouseX;
+    this.y = mouseY;
+    this.diameter = random(10, 30);
+    this.speed = 1;
+  }
+
+  jittery() {
+    this.x += random(-this.speed, this.speed);
+    this.y += random(-this.speed, this.speed);
+  }
+
+  draw() {
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+
+
+class Balloon {
+  constructor(cr, cg, cb, cx, cy, crad) {
+    fill(cr, cg, cb)
+    this.x = cx
+    this.y = cy
+    this.rad = crad
+    this.speed = 1
+  }
+
+  default (ex, ey, er) { //reset position
+    ellipse(ex, ey, er, er);
+  }
+
+
+  expand() { //blowing up the balloon
+    // radius += 5; //for testing "else"
+    radius += random(+10, -9); //fluctuate sizing
+  }
+
+  shrink(sr, sg, sb, srad) { //deflating the balloon
+    radius -= random(+6);
+  }
+
+}
+
