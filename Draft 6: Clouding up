@@ -1,0 +1,129 @@
+/*
+Adjective: suffocating
+balloon in the center "breathing" 
+slowly it gets bigger, changing color when it inflates
+walls are sharp and chomp inward constantly
+
+*/
+function strobe() {
+  stroR = random(255); //background creates strobe
+  stroB = random(255);
+  stroG = random(255);
+  w = random(200, 255);
+  background(stroR, stroG, stroB, w);
+  fill(0)
+}
+
+// class Person {
+// constructor (x,y,h,w){
+//   rect(x,y,h,w)
+// }
+//   shrinked(){
+//     rect(
+//   }
+// }
+
+class Balloon {
+  constructor(cr, cg, cb, cx, cy, crad) {
+    fill(cr, cg, cb)
+    this.x = cx
+    this.y = cy
+    this.rad = crad
+    this.speed = 1
+  }
+
+  default (ex, ey, er) { //reset position
+
+    ellipse(ex, ey, er, er);
+  }
+
+  jitter() {
+    this.x += random(-this.speed, this.speed);
+    this.y += random(-this.speed, this.speed);
+  }
+
+
+  expand() { //blowing up the balloon
+    // radius += 5; //for testing "else"
+    radius += random(+10, -9); //fluctuate sizing
+  }
+
+  shrink(sr, sg, sb, srad) { //deflating the balloon
+    radius-=random(+6);
+
+   
+
+  }
+
+
+}
+
+
+var x, y, r, g, b, rad, rr, gg, bb, u; //declare everything
+var changingBall; //decalre  balloon
+var balls = [];
+var fr; //frame rate
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  fr=14; //framerate
+
+  rr = random(0, 255);
+  gg = random(0, 255);
+  bb = random(0, 255);
+
+  xx = windowWidth / 2;
+  yy = windowHeight / 2;
+  radius = 100; //starting radius
+
+  // for (var i = 0; i <= windowHeight; i++) { //limit balloon to the window
+  changingBall = new Balloon(rr, gg, bb, xx, yy, radius)
+
+
+  for (let p = 0; p < 50; p++) {
+    balls.push(new Balloon(rr, gg, bb, random(width), random(height), random(-2, 2))) //draw randomized dots
+  }
+  // }
+}
+
+function draw() {
+
+  starterBall = changingBall.default(xx, yy, radius); //default image
+
+
+
+  if (radius <= windowHeight && radius <= windowWidth) { //had not touched the walls
+    // radius+=5
+    changingBall.expand()
+
+  } else { //hits walls
+    changingBall.shrink();
+    blackingOut();
+    
+    
+    // newRad = radius; //intake current radius
+
+  }
+  person =rect(xx,yy,100,50);;
+  for (let m = windowWidth ; m>50; m--){
+  for (let m = windowHeight ; m>100; n--){    
+  person=rect(xx,yy,m,n);
+  }
+}
+}
+
+// Person ();
+function blackingOut() {
+  // for (let k = fr; k<30 ; k+5){
+  // strobe();
+  // frameRate(fr);
+  //   delayTime(4)}
+  
+  changingBall.shrink(rr, gg, bb, radius);
+  for(let k = 0; k < 3; k++){ //gradient from color to black
+    fill(rr--,gg--,bb--) //varying gray dots 
+  for (let n of balls) {
+    n.default(random(width), random(height), random(-10, 30)) //clutter, closing the spaces between colors to "breathe"
+  }
+}
+}
