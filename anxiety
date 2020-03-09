@@ -1,0 +1,105 @@
+/*
+Adjective: suffocating
+balloon in the center "breathing" 
+slowly it gets bigger, changing color when it inflates
+walls are sharp and chomp inward constantly
+
+*/
+
+class Balloon {
+  constructor(cr, cg, cb, cx, cy, crad) {
+    fill(cr,cg,cb)
+    this.x = cx
+    this.y = cy
+    this.rad = crad
+    this.speed = 1
+  }
+
+  default (ex,ey,er) { //reset position
+
+    ellipse(ex,ey,er,er);
+  }
+
+  jitter(){
+    this.x += random(-this.speed, this.speed);
+    this.y += random(-this.speed, this.speed);
+  }
+    
+  
+  expand() { //blowing up the balloon
+    radius +=5; //for testing "else"
+    // radius+=random(+10,-9); //fluctuate sizing
+  }
+  
+  shrink() { //deflating the balloon
+    fill ('gray')
+    radius-=8;
+
+  }
+
+
+}
+
+
+var x,y,r,g,b,rad,rr,gg,bb; //declare everything
+var changingBall; //decalre  balloon
+
+
+function setup() {
+  createCanvas(windowWidth, windowHeight); 
+  
+  rr = random(0,255);
+  gg = random(0,255);
+  bb = random(0,255);
+  
+  xx = windowWidth/2;
+  yy = windowHeight/2;
+  radius = 100; //starting radius
+  
+  // for (var i = 0; i <= windowHeight; i++) { //limit balloon to the window
+    changingBall = new Balloon(rr, gg, bb, xx, yy, radius)
+  // }
+}
+
+function draw() {
+
+  starterBall = changingBall.default(xx,yy,radius); //default image
+ 
+  // radius++ //expanding
+  
+  if(radius <= windowHeight && radius <=windowWidth){ //had not touched the walls
+    // radius+=5
+    changingBall.expand()
+    // while(radius++){
+    // changingBall.jitter();
+    // }
+  }
+  else { //hits walls, the ball shrinks
+    changingBall.shrink();
+    // for(let i=windowWidth/2;i < windowWidth;i++){
+      changingBall.shrink();
+      stroR=random(255); //background creates strobe
+      stroB=random(255);
+      stroG=random(255);
+      w= random(200,255);
+      background(stroR,stroG,stroB,w);
+      fill(0)
+      
+    // }
+  }
+    
+          
+  
+  
+  //   if (x <= windowWidth || y <= windowHeight) {
+//     x++;
+//     y++;
+//     for (var i = 0; i < 100; i++) { //while it inflates, it changes color
+//       balloons.push(new Balloon(random(width), random(height)))
+//     }
+//   } 
+//   else {
+//     x = 0
+//     y = 0
+//   }
+}
